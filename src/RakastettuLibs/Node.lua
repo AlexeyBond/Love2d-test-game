@@ -18,6 +18,26 @@ function Node.new()
 
 	end
 
+	function node:setRect(top, bottom, left, right)
+		self._rect = {
+			top = top,
+			bottom = bottom,
+			left = left,
+			right = right
+		}
+	end
+
+	function node:_debugDraw()
+		love.graphics.setColor(128, 128, 0, 128)
+		love.graphics.rectangle("fill",
+				self._originPt.x - self._rect.left,
+				self._originPt.y - self._rect.top,
+				self._rect.right + self._rect.left,
+				self._rect.bottom + self._rect.top)
+		love.graphics.setColor(128, 128, 0, 255)
+		love.graphics.point(self._originPt.x, self._originPt.y)
+	end
+
 	function node:move(dx, dy)
 		self._originPt.x = self._originPt.x + dx
 		self._originPt.y = self._originPt.y + dy

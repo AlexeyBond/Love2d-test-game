@@ -4,9 +4,9 @@ function List.new()
 	print("List.new() called")
 
 	local list = {
-		_head = nil
-		_tail = nil
-		_current = nil
+		_head = nil,
+		_tail = nil,
+		_current = nil,
 		_byID = {}
 	}
 
@@ -134,6 +134,15 @@ function List.new()
 		else
 			return true
 		end
+	end
+
+	function list:isEnd()
+		if self._current then
+			if self._current.next then
+				return false
+			end
+		end
+		return true
 	end
 
 	return list
