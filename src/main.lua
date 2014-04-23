@@ -18,10 +18,10 @@ end
 
 
 function love.draw()
-	--game.scene:draw()
+	game.scene:draw()
 end
 
 
 function love.update(dt)
-	--game.scene:update(dt)
+	game.scene:update(dt)
 end
