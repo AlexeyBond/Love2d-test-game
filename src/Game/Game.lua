@@ -9,7 +9,7 @@ function Game:resizeWindow(width, height)
 	cam._sizes.width = width
 	cam._sizes.height = height
 
-	--send event to layers?
+	--send event to layers? -- no
 end
 
 function Game:init(width, height)
@@ -45,8 +45,9 @@ function Game:_initTestScene()
 	function game.scene:update(dt)
 		local phi = 2
 		local zv = 1
-		self._camera._angle = (self._camera._angle + dt * phi) % (2 * math.pi)
+		self._camera._angle = (self._camera._angle + dt * phi * 0.2) % (2 * math.pi)
 		self._camera._zoom = self._camera._zoom + zv * dt
+		self._camera._zoom_aspect = 1 + 0.3*math.sin(self._camera._angle*20.0)
 		if self._camera._zoom > 2 then
 			self._camera._zoom = 0.5
 			print("over")

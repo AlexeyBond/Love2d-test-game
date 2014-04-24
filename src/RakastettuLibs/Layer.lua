@@ -24,7 +24,7 @@ function Layer.new()
 		love.graphics.translate(camera._sizes.width/2 - camera._originPt.x,
 				camera._sizes.height/2 - camera._originPt.y)
 		love.graphics.rotate(camera._angle)
-		love.graphics.scale(camera._zoom, camera._zoom)
+		love.graphics.scale(camera._zoom/camera._zoom_aspect, camera._zoom*camera._zoom_aspect)
 
 		self._nodes:toBegin()
 		while true do
