@@ -30,8 +30,12 @@ function Layer.new()
 		while true do
 			local node = self._nodes:getCurrent()
 
-			node:_debugDraw()
 			node:draw()
+
+			if camera._debug == true then
+				node:_debugDraw()
+			end
+			
 			if self._nodes:isEnd() then
 				break
 			end

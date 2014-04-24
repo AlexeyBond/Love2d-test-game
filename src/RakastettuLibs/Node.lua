@@ -28,14 +28,31 @@ function Node.new()
 	end
 
 	function node:_debugDraw()
-		love.graphics.setColor(128, 128, 0, 128)
+		love.graphics.setColor(200, 80, 80, 20)
 		love.graphics.rectangle("fill",
 				self._originPt.x - self._rect.left,
 				self._originPt.y - self._rect.top,
 				self._rect.right + self._rect.left,
 				self._rect.bottom + self._rect.top)
-		love.graphics.setColor(128, 128, 0, 255)
-		love.graphics.point(self._originPt.x, self._originPt.y)
+		love.graphics.setColor(200, 80, 80, 200)
+		love.graphics.rectangle("line",
+				self._originPt.x - self._rect.left,
+				self._originPt.y - self._rect.top,
+				self._rect.right + self._rect.left,
+				self._rect.bottom + self._rect.top)
+		love.graphics.setColor(255, 120, 120, 255)
+		love.graphics.setLineWidth(0.2)
+		local cross_size = 2
+		love.graphics.line(
+				self._originPt.x + cross_size,
+				self._originPt.y + cross_size,
+				self._originPt.x - cross_size,
+				self._originPt.y - cross_size)
+		love.graphics.line(
+				self._originPt.x + cross_size,
+				self._originPt.y - cross_size,
+				self._originPt.x - cross_size,
+				self._originPt.y + cross_size)
 	end
 
 	function node:move(dx, dy)

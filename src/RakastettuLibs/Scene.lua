@@ -16,6 +16,7 @@ function Scene.new()
 	cam._angle = 0
 	cam._zoom = 1
 	cam._zoom_aspect = 1
+	cam._debug = true
 
 	function scene:addLayer(layer)
 		print("scene:addLayer(layer) called")
