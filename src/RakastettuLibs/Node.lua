@@ -11,6 +11,7 @@ function Node:init()
 	}
 
 	self._originPt = {x = 0, y = 0}
+	self._angle = 0
 end
 
 function Node:draw()
@@ -25,32 +26,30 @@ function Node:setRect(top, bottom, left, right)
 	}
 end
 
+function Node:rotate( dangle )
+	self._angle = self._angle+dangle
+end
+
+function Node:rotateTo( angle )
+	self._angle = angle
+end
+
 function Node:_debugDraw()
+	love.graphics.push( )
+	love.graphics.translate( self._originPt.x, self._originPt.y )
+	love.graphics.rotate( self._angle )
 	love.graphics.setColor(200, 80, 80, 20)
-	love.graphics.rectangle("fill",
-			self._originPt.x - self._rect.left,
-			self._originPt.y - self._rect.top,
-			self._rect.right + self._rect.left,
-			self._rect.bottom + self._rect.top)
+	love.graphics.rectangle("fill", -self._rect.left, -self._rect.top,
+		self._rect.left+self._rect.right, self._rect.top+self._rect.bottom)
 	love.graphics.setColor(200, 80, 80, 200)
-	love.graphics.rectangle("line",
-			self._originPt.x - self._rect.left,
-			self._originPt.y - self._rect.top,
-			self._rect.right + self._rect.left,
-			self._rect.bottom + self._rect.top)
+	love.graphics.rectangle("line", -self._rect.left, -self._rect.top,
+		self._rect.left+self._rect.right, self._rect.top+self._rect.bottom)
 	love.graphics.setColor(255, 120, 120, 255)
 	love.graphics.setLineWidth(0.2)
 	local cross_size = 2
-	love.graphics.line(
-			self._originPt.x + cross_size,
-			self._originPt.y + cross_size,
-			self._originPt.x - cross_size,
-			self._originPt.y - cross_size)
-	love.graphics.line(
-			self._originPt.x + cross_size,
-			self._originPt.y - cross_size,
-			self._originPt.x - cross_size,
-			self._originPt.y + cross_size)
+	love.graphics.line(cross_size, cross_size, -cross_size, -cross_size)
+	love.graphics.line(cross_size, -cross_size, -cross_size, cross_size)
+	love.graphics.pop( );
 end
 
 function Node:move(dx, dy)
