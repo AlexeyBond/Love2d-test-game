@@ -70,7 +70,9 @@ function Layer:_applyTransforms( camera )
 		love.graphics.translate(camera._sizes.width/2, camera._sizes.height/2)
 		love.graphics.scale(camera._zoom/camera._zoom_aspect, camera._zoom*camera._zoom_aspect)
 		love.graphics.rotate(camera._angle * self._camera_move_scale.w)
-		love.graphics.translate(-camera._originPt.x, -camera._originPt.y)
+		love.graphics.translate(
+			-camera._originPt.x*self._camera_move_scale.x,
+			-camera._originPt.y*self._camera_move_scale.y)
 	else
 		love.graphics.scale(
 			camera._sizes.width/self._screen_overlay_size.width,
