@@ -28,21 +28,21 @@ function love.load()
 	game:init(width, height)
 
 ----------------------------------
-	-- local a = class:new()
-	-- function a:init(x)
-	-- 	self.x = x
-	-- end
-	-- local b = a:new()
-	-- function b:init(x, y)
-	-- 	self.y = y
+--пример наследования
+	local a = class:new()
+	function a:init(x)
+		self.x = x
+	end
+	local b = class:new(); b:addparent(a)
+	function b:init(x, y)
+		a.init(self, x) --вызываем метод родителя
 
-	-- 	print(self.x)
-	-- 	print(self.y)
-	-- 	self.z = self.x + self.y
-	-- end
+		self.y = y
+		self.z = self.x + self.y
+	end
 
-	-- local obj = b:new(1, 2)
-	-- print(obj.x .. ' ' .. obj.y .. ' ')-- .. obj.z)
+	local obj = b:new(1, 2)
+	print(obj.x .. ' ' .. obj.y .. ' ' .. obj.z)
 ----------------------------------
 end
 
