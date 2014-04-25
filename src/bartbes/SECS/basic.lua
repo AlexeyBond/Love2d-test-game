@@ -31,7 +31,7 @@ function class_mt:__index(key)
 	return self.__baseclass[key]
 end
 
-class = setmetatable({ __baseclass = {} }, class_mt)
+local class = setmetatable({ __baseclass = {} }, class_mt)
 
 function class:new(...)
 	local c = {}
@@ -43,3 +43,4 @@ function class:new(...)
 	return c
 end
 
+return class

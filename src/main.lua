@@ -1,3 +1,4 @@
+libs = {}
 rkstlib = {}
 rkstlib.scene = require "RakastettuLibs.Scene"
 rkstlib.layer = require "RakastettuLibs.Layer"

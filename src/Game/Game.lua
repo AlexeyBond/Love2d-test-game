@@ -8,14 +8,12 @@ function Game:resizeWindow(width, height)
 	local cam = self.scene._camera
 	cam._sizes.width = width
 	cam._sizes.height = height
-
-	--send event to layers? -- no
 end
 
 function Game:init(width, height)
 	print("Game:init() called")
 
-	self.scene = rkstlib.scene.new()
+	self.scene = rkstlib.scene:new()
 
 	self:resizeWindow(width, height)
 	self:_initTestScene()
@@ -28,14 +26,14 @@ end
 ]]--
 function Game:_initTestScene()
 	--test----------------
-	local mainLayer = rkstlib.layer.new()
+	local mainLayer = rkstlib.layer:new()
 
-	local node1 = rkstlib.node.new()
+	local node1 = rkstlib.node:new()
 	node1:setRect(50, 50, 30, 40)
 	node1:moveTo(0, 0)
 	mainLayer:addNode(node1)
 
-	local node2 = rkstlib.node.new()
+	local node2 = rkstlib.node:new()
 	node2:setRect(10, 20, 30, 40)
 	node2:moveTo(100, -150)
 	mainLayer:addNode(node2)
