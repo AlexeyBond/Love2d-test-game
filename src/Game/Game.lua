@@ -40,6 +40,17 @@ function Game:_initTestScene()
 
 	self.scene:addLayer(mainLayer)
 
+	local overlayLayer = rkstlib.layer:new()
+
+	overlayLayer._is_screen_overlay = true
+
+	local overnode1 = rkstlib.node:new()
+	overnode1:setRect(20, 20, 50, 50)
+	overnode1:moveTo(70, 50)
+	overlayLayer:addNode(overnode1)
+
+	self.scene:addLayer(overlayLayer)
+
 	function game.scene:update(dt)
 		local phi = 2
 		local zv = 1
