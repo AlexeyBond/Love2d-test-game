@@ -122,3 +122,5 @@ function class:setmetamethod(name, value)
 	newmt[name] = value
 	setmetatable(self, newmt)
 end
+
+return class

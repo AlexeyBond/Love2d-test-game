@@ -1,3 +1,5 @@
+local class = require "bartbes.SECS.full"
+
 libs = {}
 rkstlib = {}
 rkstlib.scene = require "RakastettuLibs.Scene"
@@ -24,6 +26,24 @@ function love.load()
 	end
 
 	game:init(width, height)
+
+----------------------------------
+	-- local a = class:new()
+	-- function a:init(x)
+	-- 	self.x = x
+	-- end
+	-- local b = a:new()
+	-- function b:init(x, y)
+	-- 	self.y = y
+
+	-- 	print(self.x)
+	-- 	print(self.y)
+	-- 	self.z = self.x + self.y
+	-- end
+
+	-- local obj = b:new(1, 2)
+	-- print(obj.x .. ' ' .. obj.y .. ' ')-- .. obj.z)
+----------------------------------
 end
 
 function love.draw()
