@@ -89,7 +89,7 @@ function Game:_initScene()
 			Game.player._originPt.x = Game.player._originPt.x + Game._roadLength/2
 		end
 		Game.scene._camera._originPt.x = Game.player._originPt.x
-		Game.scene._camera._originPt.y = -Game.player._originPt.y
+		Game.scene._camera._originPt.y = Game.player._originPt.y
 		Game.scene._camera._angle = -Game.player._angle
 	end
 	----------------------
