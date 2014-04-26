@@ -28,14 +28,22 @@ function Game:_initTestScene()
 	--test----------------
 	local mainLayer = rkstlib.layer:new()
 
-	local node1 = rkstlib.node:new()
-	node1:setRect(50, 50, 30, 40)
-	node1:moveTo(0, 0)
+
+	local node1 = rkstlib.node:new(
+			nil, --по умолчанию {x = 0, y = 0}
+			{top = 50, bottom = 50, left = 30, right = 40},
+			nil -- по умолчанию 0
+	)
 	mainLayer:addNode(node1)
 
-	local node2 = rkstlib.node:new()
-	node2:setRect(10, 20, 30, 40)
-	node2:moveTo(100, -150)
+	local node2 = rkstlib.node:new(
+			{x = 100, y = -150},
+			--{top = 10, bottom = 20, left = 30, right = 40},
+			node1:getRect(), --копируем рект из предыдущей ноды
+			nil
+	)
+	node2._rect.top = 10 --меняем первые два параметра ректа
+	node2._rect.bottom = 20 --//--
 	mainLayer:addNode(node2)
 
 	self.scene:addLayer(mainLayer)

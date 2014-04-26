@@ -29,20 +29,20 @@ function love.load()
 
 ----------------------------------
 --пример наследования
-	local a = class:new()
-	function a:init(x)
-		self.x = x
-	end
-	local b = class:new(); b:addparent(a)
-	function b:init(x, y)
-		a.init(self, x) --вызываем метод родителя
+	-- local a = class:new()
+	-- function a:init(x)
+	-- 	self.x = x
+	-- end
+	-- local b = class:new(); b:addparent(a)
+	-- function b:init(x, y)
+	-- 	a.init(self, x) --вызываем конструктор родителя
 
-		self.y = y
-		self.z = self.x + self.y
-	end
+	-- 	self.y = y
+	-- 	self.z = self.x + self.y
+	-- end
 
-	local obj = b:new(1, 2)
-	print(obj.x .. ' ' .. obj.y .. ' ' .. obj.z)
+	-- local obj = b:new(1, 2)
+	-- print(obj.x .. ' ' .. obj.y .. ' ' .. obj.z)
 ----------------------------------
 end
 

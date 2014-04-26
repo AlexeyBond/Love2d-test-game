@@ -1,28 +1,75 @@
-local class = require "bartbes.SECS.basic"
+local class = require "bartbes.SECS.full"
 
 local Node = class:new()
 
-function Node:init()
-	self._rect = {
-		top = 0,
-		bottom = 0,
-		left = 0,
-		right = 0
-	}
+function Node:init(originPt, rect, angle)
+	if rect then
+		self._rect = rect
+	else
+		self._rect = {
+			top = 0,
+			bottom = 0,
+			left = 0,
+			right = 0
+		}
+	end
 
-	self._originPt = {x = 0, y = 0}
-	self._angle = 0
+	if originPt then
+		self._originPt = originPt
+	else
+		self._originPt = {
+			x = 0,
+			y = 0
+		}
+	end
+
+	if angle then
+		self._angle = angle
+	else
+		self._angle = 0
+	end
+end
+
+function Node:setOriginPt(x, y)
+	if type(x) == "table" then
+		self._originPt = x
+	else
+		self._originPt = {
+			x = x,
+			y = y
+		}
+	end
+end
+
+function Node:getOriginPt()
+	return {
+		x = self._originPt.x,
+		y = self._originPt.y
+	}
 end
 
 function Node:draw()
 end
 
-function Node:setRect(top, bottom, left, right)
-	self._rect = {
-		top = top,
-		bottom = bottom,
-		left = left,
-		right = right
+function Node:setRect(top, bottom, left, right) --можно вызывать :setRect(rect)
+	if type(top) == "table" then
+		self._rect = top
+	else
+		self._rect = {
+			top = top,
+			bottom = bottom,
+			left = left,
+			right = right
+		}
+	end
+end
+
+function Node:getRect() -- возвращает копию _rect
+	return {
+		top = self._rect.top,
+		bottom = self._rect.bottom,
+		left = self._rect.left,
+		right = self._rect.right
 	}
 end
 
@@ -32,6 +79,10 @@ end
 
 function Node:rotateTo( angle )
 	self._angle = angle
+end
+
+function Node:getAngle()
+	return self._angle
 end
 
 function Node:_debugDraw()

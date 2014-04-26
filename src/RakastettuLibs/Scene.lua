@@ -1,4 +1,4 @@
-local class = require "bartbes.SECS.basic"
+local class = require "bartbes.SECS.full"
 rkstlib.list = require "RakastettuLibs.List"
 
 local Scene = class:new()
