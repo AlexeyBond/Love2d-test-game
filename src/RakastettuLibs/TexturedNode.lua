@@ -19,7 +19,7 @@ function TexturedNode:draw()
 	love.graphics.push( )
 	love.graphics.translate( self._originPt.x, self._originPt.y )
 	love.graphics.rotate( self._angle )
-	love.graphics.draw(self._texture, self._originPt.x - self._rect.left, self._originPt.y - self._rect.top)
+	love.graphics.draw(self._texture, -self._rect.left, -self._rect.top)
 	love.graphics.pop( );
 end
 
