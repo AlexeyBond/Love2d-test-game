@@ -17,6 +17,7 @@ function Game:init(width, height)
 	print("Game:init() called")
 
 	self.scene = rkstlib.scene:new()
+	self.scene._camera._zoom = 0.3
 
 	self.textures = {
 		player = love.graphics.newImage("res/img/player.png"),
@@ -78,12 +79,18 @@ function Game:_initScene()
 			player_dv.phi = dt
 		end
 		Game.player:rotate(player_dv.phi)
-		Game.player:vector_move(player_dv.x*100, 0)
+		Game.player:vector_move(player_dv.x*1000, 0)
+
 		Game.player._originPt.x = Game.player._originPt.x % Game._roadLength
 		if math.abs(Game.player._originPt.y)>Game.textures.road:getWidth()/2 then
-			Game.player._originPt.y = -Game.player._originPt.y + (Game.player._originPt.y - Game.textures.road:getWidth()/2)
+			local offset = 2*(math.abs(Game.player._originPt.y) - Game.textures.road:getWidth()/2)
+			if Game.player._originPt.y < 0 then offset = -offset end
+			Game.player._originPt.y = -Game.player._originPt.y + offset
 			Game.player._originPt.x = Game.player._originPt.x + Game._roadLength/2
 		end
+		Game.scene._camera._originPt.x = Game.player._originPt.x
+		Game.scene._camera._originPt.y = -Game.player._originPt.y
+		Game.scene._camera._angle = -Game.player._angle
 	end
 	----------------------
 end

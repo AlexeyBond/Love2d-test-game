@@ -1,7 +1,8 @@
 local class = require "bartbes.SECS.full"
 local Layer = require "RakastettuLibs.Layer"
+local texturedNode = require "RakastettuLibs.TexturedNode"
 
-local roadlayer_num_nodes = 5;
+local roadlayer_num_nodes = 7;
 
 
 local RoadLayer = class:new()
@@ -14,7 +15,10 @@ function RoadLayer:init( roadTexture )
 	local tw = roadTexture:getWidth()
 	local th = roadTexture:getHeight()
 
-
+	for i = 1, roadlayer_num_nodes do
+		local xx = (roadlayer_num_nodes/2 - i)*th
+		self:addNode( texturedNode:new({x=xx,y=0},nil,math.pi/2,roadTexture) )
+	end
 end
 
 function RoadLayer:_applyTransforms( camera )

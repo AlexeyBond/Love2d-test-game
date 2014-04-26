@@ -12,7 +12,6 @@ function Player:init(originPt, rect, angle, texture)
 	self._rect.bottom = self._h / 2
 	self._rect.left = self._w / 2
 	self._rect.right = self._w / 2
-	self._sum_road = 0
 end
 
 return Player
