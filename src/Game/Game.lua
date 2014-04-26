@@ -1,6 +1,7 @@
 rkstlib.scene = require "RakastettuLibs.Scene"
 rkstlib.layer = require "RakastettuLibs.Layer"
 rkstlib.node = require "RakastettuLibs.Node"
+rkstlib.texturedNode = require "RakastettuLibs.TexturedNode"
 
 local Game = {} --game with one scene
 
@@ -14,6 +15,10 @@ function Game:init(width, height)
 	print("Game:init() called")
 
 	self.scene = rkstlib.scene:new()
+
+	self.textures = {
+		player = love.graphics.newImage("res/img/player.png")
+	}
 
 	self:resizeWindow(width, height)
 	self:_initTestScene()
@@ -46,6 +51,14 @@ function Game:_initTestScene()
 	node2._rect.bottom = 20 --//--
 	mainLayer:addNode(node2)
 
+	local player = rkstlib.texturedNode:new(
+			{x = 0, y = 0},
+			nil,
+			0,
+			self.textures.player
+	)
+	mainLayer:addNode(player)
+
 	self.scene:addLayer(mainLayer)
 
 	local overlayLayer = rkstlib.layer:new()
@@ -60,15 +73,15 @@ function Game:_initTestScene()
 	self.scene:addLayer(overlayLayer)
 
 	function game.scene:update(dt)
-		local phi = 2
-		local zv = 1
-		self._camera._angle = (self._camera._angle + dt * phi * 0.2) % (2 * math.pi)
-		self._camera._zoom = self._camera._zoom + zv * dt
-		self._camera._zoom_aspect = 1 + 0.3*math.sin(self._camera._angle*20.0)
-		if self._camera._zoom > 2 then
-			self._camera._zoom = 0.5
-			print("over")
-		end
+		-- local phi = 2
+		-- local zv = 1
+		-- self._camera._angle = (self._camera._angle + dt * phi * 0.2) % (2 * math.pi)
+		-- self._camera._zoom = self._camera._zoom + zv * dt
+		-- self._camera._zoom_aspect = 1 + 0.3*math.sin(self._camera._angle*20.0)
+		-- if self._camera._zoom > 2 then
+		-- 	self._camera._zoom = 0.5
+		-- 	print("over")
+		-- end
 	end
 	----------------------
 end

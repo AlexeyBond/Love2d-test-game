@@ -108,10 +108,16 @@ function Node:move(dx, dy)
 	self._originPt.y = self._originPt.y + dy
 end
 
-
 function Node:moveTo(x, y)
 	self._originPt.x = x
 	self._originPt.y = y
+end
+
+function Node:vector_move(vert, hor)
+	self._originPt.x = self._originPt.x + vert*math.sin(self._angle)
+	self._originPt.y = self._originPt.y - vert*math.cos(self._angle)
+	self._originPt.x = self._originPt.x + hor*math.cos(self._angle)
+	self._originPt.y = self._originPt.y + hor*math.sin(self._angle)
 end
 
 return Node
