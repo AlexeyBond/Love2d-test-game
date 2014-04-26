@@ -23,6 +23,8 @@ function Game:init(width, height)
 		road = love.graphics.newImage("res/img/road.png")
 	}
 
+	self._roadLength = 5 * self.textures.road:getHeight()
+
 	self:resizeWindow(width, height)
 	self:_initScene()
 end
@@ -42,9 +44,11 @@ function Game:_initScene()
 	Game.player = Game.Player:new(
 			{x = 0.001, y = 0},
 			nil,
-			0,
+			math.pi / 2,
 			self.textures.player
 	)
+
+
 
 	mainLayer:addNode(Game.player)
 
@@ -62,19 +66,24 @@ function Game:_initScene()
 	self.scene:addLayer(overlayLayer)
 
 	function Game.scene:update(dt)
-		local player_dv = {x = 0, y = 0}
+		local player_dv = {x = 0, phi = 0}
 		if love.keyboard.isDown('w') then
-			print('lol')
 			player_dv.x = dt
 		elseif love.keyboard.isDown('s') then
 			player_dv.x = -dt
 		end
 		if love.keyboard.isDown('a') then
-			player_dv.y = -dt
+			player_dv.phi = -dt
 		elseif love.keyboard.isDown('d') then
-			player_dv.y = dt
+			player_dv.phi = dt
 		end
-		Game.player:move(player_dv.x*100, player_dv.y)
+		Game.player:rotate(player_dv.phi)
+		Game.player:vector_move(player_dv.x*100, 0)
+		Game.player._originPt.x = Game.player._originPt.x % Game._roadLength
+		if math.abs(Game.player._originPt.y)>Game.textures.road:getWidth()/2 then
+			Game.player._originPt.y = -Game.player._originPt.y + (Game.player._originPt.y - Game.textures.road:getWidth()/2)
+			Game.player._originPt.x = Game.player._originPt.x + Game._roadLength/2
+		end
 	end
 	----------------------
 end

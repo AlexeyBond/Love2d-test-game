@@ -48,6 +48,9 @@ end
 
 function love.draw()
 	game.scene:draw()
+
+	local pt = game.player:getOriginPt()
+	love.graphics.print('x=' .. pt.x .. ', y=' .. pt.y, 13, 13)
 end
 
 function love.update(dt)
