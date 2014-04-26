@@ -40,7 +40,7 @@ function Game:_initScene()
 	local mainLayer = rkstlib.layer:new()
 
 	Game.player = Game.Player:new(
-			{x = 0, y = 0},
+			{x = 0.001, y = 0},
 			nil,
 			0,
 			self.textures.player
@@ -61,8 +61,20 @@ function Game:_initScene()
 
 	self.scene:addLayer(overlayLayer)
 
-	function game.scene:update(dt)
-		
+	function Game.scene:update(dt)
+		local player_dv = {x = 0, y = 0}
+		if love.keyboard.isDown('w') then
+			print('lol')
+			player_dv.x = dt
+		elseif love.keyboard.isDown('s') then
+			player_dv.x = -dt
+		end
+		if love.keyboard.isDown('a') then
+			player_dv.y = -dt
+		elseif love.keyboard.isDown('d') then
+			player_dv.y = dt
+		end
+		Game.player:move(player_dv.x*100, player_dv.y)
 	end
 	----------------------
 end
