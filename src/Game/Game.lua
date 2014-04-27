@@ -39,6 +39,18 @@ function Game:init(width, height)
 	self.scene._camera._debug = true
 end
 
+local function overrideDrawFunction( node )
+	node.originalDraw = node.draw
+	function node:draw()
+		for off = -1,1 do
+			love.graphics.push( )
+			love.graphics.translate(off*Game._roadLength,0)
+			self:originalDraw( )
+			love.graphics.pop( )
+		end
+	end
+end
+
 function Game:_makeBarrels(mainLayer)
 	local max_barrels_per_sector = 3
 	local i
@@ -52,6 +64,7 @@ function Game:_makeBarrels(mainLayer)
 				self.textures.barrel,
 				self.textures.road:getHeight()*(i-1),
 				self.textures.road:getHeight()*i )
+			overrideDrawFunction( barrel )
 			mainLayer:addNode( barrel )
 			self._barrels:insert( barrel )
 		end
