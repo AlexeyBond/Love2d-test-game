@@ -27,6 +27,8 @@ function Game:init(width, height)
 
 	self:resizeWindow(width, height)
 	self:_initScene()
+
+	self.scene._camera._debug = true
 end
 
 --[[

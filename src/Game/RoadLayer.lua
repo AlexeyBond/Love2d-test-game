@@ -26,7 +26,7 @@ function RoadLayer:_applyTransforms( camera )
 	love.graphics.scale(camera._zoom/camera._zoom_aspect, camera._zoom*camera._zoom_aspect)
 	love.graphics.rotate(camera._angle * self._camera_move_scale.w)
 	love.graphics.translate(
-		(-camera._originPt.x*self._camera_move_scale.x)%(self._texture:getHeight()),
+		-((camera._originPt.x*self._camera_move_scale.x)%(self._texture:getHeight())),
 		-camera._originPt.y*self._camera_move_scale.y)
 end
 
