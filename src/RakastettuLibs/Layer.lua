@@ -48,7 +48,7 @@ function Layer:draw(camera)
 		node:draw()
 
 		if camera._debug == true then
-			--node:_debugDraw()
+			node:_debugDraw() -- Не комментировать блеать. Юзай camera._debug
 		end
 		
 		if self._nodes:isEnd() then
