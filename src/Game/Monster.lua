@@ -13,16 +13,16 @@ function Monster:init(originPt, rect, angle, texture, road_texture, road_length)
 	local frameHeight =1
 	local states = {}
 	if texture == Game.textures.monster then
-		frameWidth=210
-		frameHeight=404
-		local grid = anim8.newGrid(frameWidth, frameHeight, texture:getWidth(), texture:getHeight())
-		states.walk = anim8.newAnimation('loop', grid('1-11,1'), 0.3)
+		frameWidth=211 --190
+		frameHeight=384
+		local grid = anim8.newGrid(frameWidth, frameHeight, texture:getWidth(), texture:getHeight(),9)
+		states.walk = anim8.newAnimation('loop', grid('1-11,1'), 0.1)
 		self._currentState = "walk"
 	elseif texture == Game.textures.worm then 
 		frameWidth=188
-		frameHeight=188
+		frameHeight=178
 		local grid = anim8.newGrid(frameWidth, frameHeight, texture:getWidth(), texture:getHeight())
-		states.amam = anim8.newAnimation('loop', grid('1-6,1'), 0.3)
+		states.amam = anim8.newAnimation('loop', grid('1-6,1'), 0.1)
 		self._currentState = "amam"
 	end
 

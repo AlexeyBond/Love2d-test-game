@@ -28,8 +28,8 @@ function Game:init(width, height)
 		player = love.graphics.newImage("res/img/sprite_character.png"),
 		road = love.graphics.newImage("res/img/road.png"),
 		space = love.graphics.newImage("res/img/space.jpg"),
-		monster = love.graphics.newImage("res/img/monster.png"),
-		worm = love.graphics.newImage("res/img/worm.png"),
+		monster = love.graphics.newImage("res/img/monster_190x384.png"),
+		worm = love.graphics.newImage("res/img/worm_168x168.png"),
 		barrel = love.graphics.newImage("res/img/barrel.png"),
 		spice = love.graphics.newImage("res/img/spice.png")
 	}
