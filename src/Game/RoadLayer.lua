@@ -2,7 +2,7 @@ local class = require "bartbes.SECS.full"
 local Layer = require "RakastettuLibs.Layer"
 local texturedNode = require "RakastettuLibs.TexturedNode"
 
-local roadlayer_num_nodes = 7;
+local roadlayer_num_nodes = 5;
 
 
 local RoadLayer = class:new()
@@ -26,7 +26,7 @@ function RoadLayer:_applyTransforms( camera )
 	love.graphics.scale(camera._zoom/camera._zoom_aspect, camera._zoom*camera._zoom_aspect)
 	love.graphics.rotate(camera._angle * self._camera_move_scale.w)
 	love.graphics.translate(
-		(-camera._originPt.x*self._camera_move_scale.x)%(self._texture:getWidth()*2),
+		(-camera._originPt.x*self._camera_move_scale.x)%(self._texture:getHeight()),
 		-camera._originPt.y*self._camera_move_scale.y)
 end
 

@@ -68,10 +68,20 @@ function Game:_initScene()
 	function Game.scene:update(dt)
 		local player_dv = {x = 0, phi = 0}
 		if love.keyboard.isDown('w') then
-			player_dv.x = dt
+			Game.player._v = Game.player._v+(Game.player._maxv-Game.player._v)*(dt/500)
+			player_dv.x = Game.player._v
 		elseif love.keyboard.isDown('s') then
-			player_dv.x = -dt
-		end
+			Game.player._v = Game.player._v-(Game.player._maxv-Game.player._v)*(dt/750)
+			player_dv.x = Game.player._v
+			elseif (Game.player._v-0.001>0) then
+				Game.player._v = Game.player._v - (Game.player._maxv-Game.player._v)*(dt/250)
+				player_dv.x = Game.player._v
+				elseif (Game.player._v+0.001<0) then
+					Game.player._v = Game.player._v + (Game.player._maxv-Game.player._v)*(dt/250)
+					player_dv.x = Game.player._v
+					else
+					Game.player._v = 0
+			end
 		if love.keyboard.isDown('a') then
 			player_dv.phi = -dt
 		elseif love.keyboard.isDown('d') then
@@ -93,12 +103,12 @@ function Game:_initScene()
 	end
 	----------------------
 	function love.mousepressed(bufx, bufy, button)
-		if button == ("wu") then
-			self.scene._camera._zoom = self.scene._camera._zoom + 0.1
+		if button == ("wd") then
+			self.scene._camera._zoom = self.scene._camera._zoom *0.9
 		end
 		
-		if button == ("wd") then
-			self.scene._camera._zoom = self.scene._camera._zoom - 0.1
+		if button == ("wu") then
+			self.scene._camera._zoom = self.scene._camera._zoom /0.9
 		end
 	end
 end
