@@ -203,12 +203,11 @@ function Game:_initScene()
 		Game._barrels:toBegin( )
 		while true do
 			local barrel = Game._barrels:getCurrent()
-			if barrel ~= nil and barrel._alive then
+			if barrel ~= nil and not barrel._hitted then
 				if ((math.pow(Game.player._originPt.x-barrel._originPt.x,2))+
 					(math.pow(Game.player._originPt.y-barrel._originPt.y,2)))
 						< math.pow(Game.player._radius+barrel._radius,2) then
-					barrel._alive = false
-					Game.player._v = 0.1 * Game.player._v
+					barrel:hit( Game.player )
 				end
 			end
 			if Game._barrels:isEnd() then
@@ -216,6 +215,8 @@ function Game:_initScene()
 			end
 			if not deleted then Game._barrels:toNext() end
 		end
+
+		rkstlib.scene.update(self,dt)
 	end
 	----------------------
 	function love.mousepressed(bufx, bufy, button)

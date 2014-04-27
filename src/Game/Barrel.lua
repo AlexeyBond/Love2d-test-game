@@ -11,6 +11,10 @@ function Barrel:init( texture, minx, maxx )
 		null, 0, texture)
 	self._radius = (texture:getHeight()+texture:getWidth())*0.25
 	self._alive = true
+	self._hitted = false
+	self._velocity = {x=0,y=0}
+	self._countdown = 10000.0
+	--self._angle = math.random( 0, 2*math.pi)
 end
 
 function Barrel:draw( )
@@ -36,6 +40,47 @@ function Barrel:_debugDraw()
 	love.graphics.line(cross_size, cross_size, -cross_size, -cross_size)
 	love.graphics.line(cross_size, -cross_size, -cross_size, cross_size)
 	love.graphics.pop( );
+end
+
+function Barrel:update( dt )
+	if not self._alive then
+		return
+	end
+
+	if self._velocity.x ~= 0 or self._velocity.y ~= 0 then
+		local dx = self._velocity.x * dt
+		local dy = self._velocity.y * dt
+		local da = self._angle_velocity * dt
+
+		self._angle = self._angle + da
+		self._originPt.x = self._originPt.x + dx
+		self._originPt.y = self._originPt.y + dy
+
+		self._countdown = self._countdown - math.sqrt(dx*dx+dy*dy)
+
+		if self._countdown <= 0 then
+			self._alive = false
+		end
+	end
+end
+
+function Barrel:hit( player )
+	if self._hitted then
+		return
+	end
+	self._velocity.x = self._originPt.x - player._originPt.x
+	self._velocity.y = self._originPt.y - player._originPt.y
+
+	local k = 1000/math.sqrt(self._velocity.x^2+self._velocity.y^2)
+
+	self._velocity.x = self._velocity.x * k
+	self._velocity.y = self._velocity.y * k
+
+	self._angle_velocity = math.random( -math.pi, math.pi )
+
+	player._v = 0.4 * player._v
+
+	self._hitted = true
 end
 
 return Barrel
