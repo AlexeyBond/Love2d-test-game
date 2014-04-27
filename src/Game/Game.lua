@@ -135,7 +135,7 @@ function Game:_initScene()
 	)
 	
 	mainLayer:addNode(Game.monster)
-	
+
 	overrideDrawFunction( Game.monster )
 	
 	Game.worm = Game.Monster:new(
@@ -217,7 +217,7 @@ function Game:_initScene()
 		local middle_human = Game.player._originPt.x+Game._roadLength/2
 		middle_human = math.abs(middle_human % Game._roadLength)
 		
-		--move monster
+		--[[move monster
 		local move_y = 0
 		if delay_timer > 0.5 then
 			move_y = math.random(-10, 10)
@@ -239,7 +239,7 @@ function Game:_initScene()
 			else
 				Game.monster:vector_move(math.abs(dt*1200), move_y)
 			end
-		end
+		end]]
 		player_dv.x = 0
 		Game.monster._originPt.x = Game.monster._originPt.x % Game._roadLength
 		Game.worm._originPt.x = Game.monster._originPt.x + Game._roadLength/2

@@ -13,6 +13,7 @@ function AnimatedNode:init(originPt, rect, angle, texture, frameWidth, frameHeig
 
 	self._w = frameWidth
 	self._h = frameHeight
+	print(self._h)
 	self._rect.top = self._h / 2
 	self._rect.bottom = self._h / 2
 	self._rect.left = self._w / 2
