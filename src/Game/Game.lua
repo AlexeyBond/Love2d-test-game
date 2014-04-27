@@ -1,13 +1,15 @@
 rkstlib.scene = require "RakastettuLibs.Scene"
 rkstlib.layer = require "RakastettuLibs.Layer"
 rkstlib.node = require "RakastettuLibs.Node"
+rkstlib.list = require "RakastettuLibs.List"
 rkstlib.texturedNode = require "RakastettuLibs.TexturedNode"
 
-local Game = {} --game with one scene
+Game = {} --game with one scene
 Game.Player = require "Game.Player"
 Game.RoadLayer = require "Game.RoadLayer"
 Game.SpaceBGLayer = require "Game.SpaceBGLayer"
 Game.Monster = require "Game.Monster"
+Game.Barrel = require "Game.Barrel"
 
 function Game:resizeWindow(width, height)
 	local cam = self.scene._camera
@@ -24,10 +26,12 @@ function Game:init(width, height)
 		player = love.graphics.newImage("res/img/player.png"),
 		road = love.graphics.newImage("res/img/road.png"),
 		space = love.graphics.newImage("res/img/space.jpg"),
-		monster = love.graphics.newImage("res/img/monster.png")
+		monster = love.graphics.newImage("res/img/monster.png"),
+		barrel = love.graphics.newImage("res/img/barrel.png")
 	}
 
-	self._roadLength = 5 * self.textures.road:getHeight()
+	self._num_road_sectors = 5
+	self._roadLength = self._num_road_sectors * self.textures.road:getHeight()
 
 	self:resizeWindow(width, height)
 	self:_initScene()
@@ -35,11 +39,25 @@ function Game:init(width, height)
 	self.scene._camera._debug = true
 end
 
---[[
-Тестовая сцена
-Один слой с двумя нодами
-Вращение и зум камеры
-]]--
+function Game:_makeBarrels(mainLayer)
+	local max_barrels_per_sector = 3
+	local i
+
+	self._barrels = rkstlib.list:new( )
+
+	for i = 1, self._num_road_sectors do
+		local barrels_in_sector = math.random(1,max_barrels_per_sector)
+		for j = 1, barrels_in_sector do
+			local barrel = Game.Barrel:new(
+				self.textures.barrel,
+				self.textures.road:getHeight()*(i-1),
+				self.textures.road:getHeight()*i )
+			mainLayer:addNode( barrel )
+			self._barrels:insert( barrel )
+		end
+	end
+end
+
 function Game:_initScene()
 
 	local spaceLayer = Game.SpaceBGLayer:new(self.textures.space, self.textures.road:getHeight())
@@ -59,6 +77,7 @@ function Game:_initScene()
 	
 
 	local mainLayer = rkstlib.layer:new()
+	self:_makeBarrels(mainLayer)
 
 	Game.player = Game.Player:new(
 			{x = 0.001, y = 0},
@@ -132,6 +151,24 @@ function Game:_initScene()
 		Game.scene._camera._originPt.x = Game.player._originPt.x
 		Game.scene._camera._originPt.y = Game.player._originPt.y
 		Game.scene._camera._angle = -Game.player._angle
+
+		--[[ Check barrel collisions ]]
+		Game._barrels:toBegin( )
+		while true do
+			local barrel = Game._barrels:getCurrent()
+			if barrel ~= nil and barrel._alive then
+				if ((math.pow(Game.player._originPt.x-barrel._originPt.x,2))+
+					(math.pow(Game.player._originPt.y-barrel._originPt.y,2)))
+						< math.pow(Game.player._radius+barrel._radius,2) then
+					barrel._alive = false
+					Game.player._v = 0.1 * Game.player._v
+				end
+			end
+			if Game._barrels:isEnd() then
+				break
+			end
+			if not deleted then Game._barrels:toNext() end
+		end
 	end
 	----------------------
 	function love.mousepressed(bufx, bufy, button)
