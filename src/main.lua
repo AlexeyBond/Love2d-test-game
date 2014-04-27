@@ -49,8 +49,8 @@ end
 function love.draw()
 	game.scene:draw()
 
-	local pt = game.monster:getOriginPt()
-	love.graphics.print('x=' .. pt.x .. ', y=' .. pt.y, 13, 13)
+	local pt = Game.Score
+	love.graphics.print(pt, 13, 13)
 end
 
 function love.update(dt)

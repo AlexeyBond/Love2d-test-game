@@ -10,6 +10,7 @@ Game.RoadLayer = require "Game.RoadLayer"
 Game.SpaceBGLayer = require "Game.SpaceBGLayer"
 Game.Monster = require "Game.Monster"
 Game.Barrel = require "Game.Barrel"
+Game.Spice = require "Game.Spice"
 Game.Score = 0
 
 function Game:resizeWindow(width, height)
@@ -29,7 +30,8 @@ function Game:init(width, height)
 		space = love.graphics.newImage("res/img/space.jpg"),
 		monster = love.graphics.newImage("res/img/monster.png"),
 		worm = love.graphics.newImage("res/img/worm.png"),
-		barrel = love.graphics.newImage("res/img/barrel.png")
+		barrel = love.graphics.newImage("res/img/barrel.png"),
+		spice = love.graphics.newImage("res/img/spice.png")
 	}
 
 	self._num_road_sectors = 5
@@ -73,6 +75,26 @@ function Game:_makeBarrels(mainLayer)
 	end
 end
 
+function Game:_makespices(mainLayer)
+	local max_spices_per_sector = 3
+	local i
+
+	self._spices = rkstlib.list:new( )
+
+	for i = 1, self._num_road_sectors do
+		local spices_in_sector = math.random(1,max_spices_per_sector)
+		for j = 1, spices_in_sector do
+			local spices = Game.Spice:new(
+				self.textures.spice,
+				self.textures.road:getHeight()*(i-1),
+				self.textures.road:getHeight()*i )
+			overrideDrawFunction( spices )
+			mainLayer:addNode( spices )
+			self._barrels:insert( spices )
+		end
+	end
+end
+
 function Game:_initScene()
 
 	local spaceLayer = Game.SpaceBGLayer:new(self.textures.space, self.textures.road:getHeight())
@@ -112,6 +134,7 @@ function Game:_initScene()
 	
 	
 	mainLayer:addNode(Game.monster)
+	overrideDrawFunction( Game.monster )
 	
 	Game.worm = Game.Monster:new(
 			{x = Game.monster._originPt.x + Game._num_road_sectors/2, y = Game.monster._originPt.y },
@@ -122,9 +145,11 @@ function Game:_initScene()
 			Game._num_road_sectors
 	)
 	mainLayer:addNode(Game.worm)
+	overrideDrawFunction( Game.worm )
 	
 	
 	mainLayer:addNode(Game.player)
+	self:_makespices(mainLayer)
 
 	self.scene:addLayer(mainLayer)
 	
@@ -203,15 +228,15 @@ function Game:_initScene()
 		
 		if middle_human > Game.monster._originPt.x then
 			if middle_human - Game.monster._originPt.x < Game._roadLength/2 then
-				Game.monster:vector_move(math.abs(dt*1000), move_y)
+				Game.monster:vector_move(math.abs(dt*1200), move_y)
 			else
-				Game.monster:vector_move(-math.abs(dt*1000), move_y)
+				Game.monster:vector_move(-math.abs(dt*1200), move_y)
 			end
 		else
 			if Game.monster._originPt.x - middle_human< Game._roadLength/2 then
-				Game.monster:vector_move(-math.abs(dt*1000), move_y)
+				Game.monster:vector_move(-math.abs(dt*1200), move_y)
 			else
-				Game.monster:vector_move(math.abs(dt*1000), move_y)
+				Game.monster:vector_move(math.abs(dt*1200), move_y)
 			end
 		end
 		player_dv.x = 0
@@ -237,8 +262,27 @@ function Game:_initScene()
 			end
 			if not deleted then Game._barrels:toNext() end
 		end
-
+		
+		Game._spices:toBegin( )
+		
+		--[[while true do
+			local spice = Game._spices:getCurrent()
+			if spices ~= nil and not spices._hitted then
+				if ((math.pow(Game.player._originPt.x-spices._originPt.x,2))+
+					(math.pow(Game.player._originPt.y-spices._originPt.y,2)))
+						< math.pow(Game.player._radius+spices._radius,2) then
+					self.Score = spice:hit( self.Score )
+				end
+			end
+			if Game._spices:isEnd() then
+				break
+			end
+			if not deleted then Game._spices:toNext() end
+		end]]
+		
 		rkstlib.scene.update(self,dt)
+		
+		
 	end
 	----------------------
 	function love.mousepressed(bufx, bufy, button)
