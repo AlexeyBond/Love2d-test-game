@@ -12,7 +12,7 @@ function love.load()
 	local width = 640
 	local height = 480
 
-	if love.window ~= nil then -- v.0.9.0
+	if love.window then -- v.0.9.0
 		love.window.setMode(width, height, {resizable = true,
 				vsync = true, minwidth = 320, minheight = 240})
 

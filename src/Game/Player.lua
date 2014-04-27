@@ -3,7 +3,6 @@ local anim8 = require "anim8"
 rkstlib.animatedNode = require "RakastettuLibs.AnimatedNode"
 
 local Player = class:new(); Player:addparent(rkstlib.animatedNode)
---function AnimatedNode:init(originPt, rect, angle, texture, frameWidth, frameHeight, states)
 function Player:init(originPt, rect, angle, texture)
 	local frameWidth = 248
 	local frameHeight = 386
