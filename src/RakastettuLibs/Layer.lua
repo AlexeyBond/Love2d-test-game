@@ -81,6 +81,17 @@ function Layer:_applyTransforms( camera )
 end
 
 function Layer:update(dt)
+	self._nodes:toBegin()
+	if not self._nodes:isEmpty() then
+		while true do
+			local node = self._nodes:getCurrent()
+			node:update(dt)
+			if self._nodes:isEnd() then 
+				break
+			end
+			self._nodes:toNext()
+		end
+	end
 end
 
 return Layer

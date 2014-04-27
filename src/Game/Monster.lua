@@ -15,5 +15,4 @@ function Monster:init(originPt, rect, angle, texture, road_texture, road_length)
 	self._rect.left = self._w / 2
 	self._rect.right = self._w / 2
 end
-
 return Monster

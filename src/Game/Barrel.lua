@@ -1,23 +1,25 @@
 local class = require "bartbes.SECS.full"
 rkstlib.texturedNode = require "RakastettuLibs.TexturedNode"
 
-local Player = class:new(); Player:addparent(rkstlib.texturedNode)
+local Barrel = class:new()
+Barrel:addparent(rkstlib.texturedNode)
 
-function Player:init(originPt, rect, angle, texture)
-	rkstlib.node.init(self, originPt, rect, angle)
-	self._texture = texture
-	self._w = texture:getWidth()
-	self._h = texture:getHeight()
-	self._rect.top = self._h / 2
-	self._rect.bottom = self._h / 2
-	self._rect.left = self._w / 2
-	self._rect.right = self._w / 2
-	self._v = 0
-	self._maxv = 0.1
-	self._radius = (self._h+self._w)*0.25
+function Barrel:init( texture, minx, maxx )
+	rkstlib.texturedNode.init(
+		self,
+		{x=math.random(minx,maxx), y=math.random(-100,100)},
+		null, 0, texture)
+	self._radius = (texture:getHeight()+texture:getWidth())*0.25
+	self._alive = true
 end
 
-function Player:_debugDraw()
+function Barrel:draw( )
+	if self._alive then
+		rkstlib.texturedNode.draw( self )
+	end
+end
+
+function Barrel:_debugDraw()
 	love.graphics.push( )
 	love.graphics.translate( self._originPt.x, self._originPt.y )
 	love.graphics.rotate( self._angle )
@@ -36,4 +38,4 @@ function Player:_debugDraw()
 	love.graphics.pop( );
 end
 
-return Player
+return Barrel

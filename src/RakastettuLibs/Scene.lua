@@ -38,6 +38,17 @@ function Scene:draw()
 end
 
 function Scene:update(dt)
+	self._layers:toBegin()
+	if not self._layers:isEmpty() then
+		while true do
+			local layer = self._layers:getCurrent()
+			layer:update(dt)
+			if self._layers:isEnd() then 
+				break
+			end
+			self._layers:toNext()
+		end
+	end
 end
 
 return Scene

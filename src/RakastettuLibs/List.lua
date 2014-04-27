@@ -90,12 +90,49 @@ function List:removeById(id)
 					self._current = cur
 					return
 				end
+				it = it.next
 			end
 
 			error("Error at List:removeById(id)")
 			error("ID exist but not found at list: " .. id)
 			error("List pointer: " .. self)
 		end
+	end
+end
+
+function List:_printTablePointers()
+	-- body
+	local it = self._head
+	local i = 1
+	while it do
+		print(i .. ')')
+		print(it.value)
+		it = it.next
+		i = i + 1
+	end
+end
+
+function List:remove(t)
+	if self._current.value == t then
+		self:removeCurrent()
+		return
+	else
+--		local tmpcur = self._current
+		local it = self._head
+		while it do
+			if it.value == t then
+				local cur = self._current
+				self._current = it
+				self:removeCurrent()
+				self._current = cur
+				return
+			end
+			it = it.next
+		end
+
+		error("Error at List:remove(t)")
+		error("Table not found at list: " .. id)
+		error("List pointer: " .. self)
 	end
 end
 
@@ -137,7 +174,7 @@ end
 
 function List:isEnd()
 	if self._current then
-		if self._current.next then
+		if self._current ~= self._tail then
 			return false
 		end
 	end
