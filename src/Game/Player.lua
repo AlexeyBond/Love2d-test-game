@@ -1,17 +1,20 @@
 local class = require "bartbes.SECS.full"
-rkstlib.texturedNode = require "RakastettuLibs.TexturedNode"
+local anim8 = require "anim8"
+rkstlib.animatedNode = require "RakastettuLibs.AnimatedNode"
 
-local Player = class:new(); Player:addparent(rkstlib.texturedNode)
-
+local Player = class:new(); Player:addparent(rkstlib.animatedNode)
+--function AnimatedNode:init(originPt, rect, angle, texture, frameWidth, frameHeight, states)
 function Player:init(originPt, rect, angle, texture)
-	rkstlib.node.init(self, originPt, rect, angle)
-	self._texture = texture
-	self._w = texture:getWidth()
-	self._h = texture:getHeight()
-	self._rect.top = self._h / 2
-	self._rect.bottom = self._h / 2
-	self._rect.left = self._w / 2
-	self._rect.right = self._w / 2
+	local frameWidth = 1
+	local frameHeight = 1
+	local grid = anim8.newGrid(frameWidth, frameHeight, texture:getWidth(), texture:getHeight())
+	local states = {
+		idle = anim8.newAnimation('loop', grid('1-1,1'), 1),
+		drive = anim8.newAnimation('loop', grid('1-10,1'), 0.3)
+	}
+	rkstlib.animatedNode.init(self, originPt, rect, angle, texture, frameWidth, frameHeight, states)
+	self._currentState = 'drive'
+
 	self._v = 0
 	self._maxv = 0.1
 	self._radius = (self._h+self._w)*0.25

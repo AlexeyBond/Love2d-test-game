@@ -24,7 +24,7 @@ function Game:init(width, height)
 	self.scene = rkstlib.scene:new()
 
 	self.textures = {
-		player = love.graphics.newImage("res/img/player.png"),
+		player = love.graphics.newImage("res/img/sprite_character.png"),
 		road = love.graphics.newImage("res/img/road.png"),
 		space = love.graphics.newImage("res/img/space.jpg"),
 		monster = love.graphics.newImage("res/img/monster.png"),
