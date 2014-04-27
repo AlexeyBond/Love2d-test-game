@@ -5,8 +5,8 @@ rkstlib.animatedNode = require "RakastettuLibs.AnimatedNode"
 local Player = class:new(); Player:addparent(rkstlib.animatedNode)
 --function AnimatedNode:init(originPt, rect, angle, texture, frameWidth, frameHeight, states)
 function Player:init(originPt, rect, angle, texture)
-	local frameWidth = 1
-	local frameHeight = 1
+	local frameWidth = 248
+	local frameHeight = 386
 	local grid = anim8.newGrid(frameWidth, frameHeight, texture:getWidth(), texture:getHeight())
 	local states = {
 		idle = anim8.newAnimation('loop', grid('1-1,1'), 1),

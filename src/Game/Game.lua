@@ -122,6 +122,8 @@ function Game:_initScene()
 			math.pi / 2,
 			self.textures.player
 	)
+
+	mainLayer:addNode(Game.player)
 	
 	Game.monster = Game.Monster:new(
 			nil,
@@ -132,8 +134,8 @@ function Game:_initScene()
 			5
 	)
 	
-	
 	mainLayer:addNode(Game.monster)
+	
 	overrideDrawFunction( Game.monster )
 	
 	Game.worm = Game.Monster:new(
@@ -148,7 +150,6 @@ function Game:_initScene()
 	overrideDrawFunction( Game.worm )
 	
 	
-	mainLayer:addNode(Game.player)
 	self:_makespices(mainLayer)
 
 	self.scene:addLayer(mainLayer)
