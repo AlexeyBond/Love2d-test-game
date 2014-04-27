@@ -26,7 +26,7 @@ function Node:init(originPt, rect, angle)
 	if angle then
 		self._angle = angle
 	else
-		self._angle = 0
+		self._angle = math.pi/2
 	end
 end
 

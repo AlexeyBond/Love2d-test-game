@@ -12,7 +12,7 @@ function love.load()
 	local width = 640
 	local height = 480
 
-	if love.window ~= nil then -- v.0.9.0
+	if love.window then -- v.0.9.0
 		love.window.setMode(width, height, {resizable = true,
 				vsync = true, minwidth = 320, minheight = 240})
 
@@ -49,7 +49,7 @@ end
 function love.draw()
 	game.scene:draw()
 
-	local pt = Game.Score
+	local pt = Game.move_y
 	love.graphics.print(pt, 13, 13)
 end
 

@@ -13,6 +13,7 @@ function AnimatedNode:init(originPt, rect, angle, texture, frameWidth, frameHeig
 
 	self._w = frameWidth
 	self._h = frameHeight
+	print(self._h)
 	self._rect.top = self._h / 2
 	self._rect.bottom = self._h / 2
 	self._rect.left = self._w / 2
@@ -35,7 +36,9 @@ function AnimatedNode:draw()
 		love.graphics.translate( self._originPt.x, self._originPt.y )
 		love.graphics.rotate( self._angle )
 
-		self._states[self._currentState]:draw(self._texture, -self._rect.left, -self._rect.top)
+		if love.window then --будет работать в 9 версии
+			self._states[self._currentState]:draw(self._texture, -self._rect.left, -self._rect.top)
+		end
 
 		love.graphics.pop();
 	end

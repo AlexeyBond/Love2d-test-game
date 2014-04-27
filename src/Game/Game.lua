@@ -135,7 +135,7 @@ function Game:_initScene()
 	)
 	
 	mainLayer:addNode(Game.monster)
-	
+
 	overrideDrawFunction( Game.monster )
 	
 	Game.worm = Game.Monster:new(
@@ -201,45 +201,30 @@ function Game:_initScene()
 		elseif love.keyboard.isDown('d') then
 			player_dv.phi = dt
 		end
+		if math.abs(Game.player._originPt.y)>Game.textures.road:getWidth()/2 then
+			local offset = 2*(math.abs(Game.player._originPt.y) - Game.textures.road:getWidth()/2)
+			if Game.player._originPt.y < 0 then offset = -offset end
+				player_dv.phi = math.pi - player_dv.phi
+				Game.player._originPt.y = Game.player._originPt.y - offset
+				Game.player._originPt.x = Game.player._originPt.x + Game._roadLength/2
+		end
 		Game.player:rotate(player_dv.phi)
 		Game.player:vector_move(player_dv.x*1000, 0)
 
 		Game.player._originPt.x = Game.player._originPt.x % Game._roadLength
-		if math.abs(Game.player._originPt.y)>Game.textures.road:getWidth()/2 then
-			local offset = 2*(math.abs(Game.player._originPt.y) - Game.textures.road:getWidth()/2)
-			if Game.player._originPt.y < 0 then offset = -offset end
-			Game.player._originPt.y = -Game.player._originPt.y + offset
-			Game.player._originPt.x = Game.player._originPt.x + Game._roadLength/2
-		end
+		
+		
 		Game.scene._camera._originPt.x = Game.player._originPt.x
 		Game.scene._camera._originPt.y = Game.player._originPt.y
 		Game.scene._camera._angle = -Game.player._angle
-		local middle_human = Game.player._originPt.x+Game._roadLength/2
-		middle_human = math.abs(middle_human % Game._roadLength)
+		Game.middle_human = Game.player._originPt.x + Game._roadLength/2
+		Game.middle_human = math.abs(Game.middle_human) % Game._roadLength
 		
-		--move monster
-		local move_y = math.pi/180
 		
-		if middle_human > Game.monster._originPt.x then
-			if middle_human - Game.monster._originPt.x < Game._roadLength/2 then
-				Game.monster:vector_move(math.abs(dt*1200), move_y)
-			else
-				if delay_timer>0.01 then
-					Game.monster:vector_move(math.abs(dt*1200), move_y)
-					if Game.monster._angle < -math.pi/2 then
-						if Game.monster._angle - math.pi/2 > 0 then
-							Game.monster._angle = Game.monster._angle+move_y
-						end
-					end
-				end
-			end
-		else
-			if Game.monster._originPt.x - middle_human< Game._roadLength/2 then
-				Game.monster:vector_move(-math.abs(dt*1200), move_y)
-			else
-				Game.monster:vector_move(math.abs(dt*1200), move_y)
-			end
-		end
+		Game.move_y = math.atan2(Game.monster._originPt.y - Game.player._originPt.y,  Game.monster._originPt.x - Game.middle_human)
+		Game.monster:rotateTo( Game.move_y )
+		
+		Game.monster:vector_move(math.abs(dt*1200), 0)
 		player_dv.x = 0
 		Game.monster._originPt.x = Game.monster._originPt.x % Game._roadLength
 		Game.worm._originPt.x = Game.monster._originPt.x + Game._roadLength/2
