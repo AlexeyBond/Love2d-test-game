@@ -16,6 +16,6 @@ function Monster:init(originPt, rect, angle, texture, road_texture, road_length)
 	self._rect.right = self._w / 2
 end
 
-function Monster:move(human_x)
+--function Monster:move(human_x)
 	
 return Monster
