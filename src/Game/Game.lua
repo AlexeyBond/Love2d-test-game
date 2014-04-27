@@ -132,6 +132,32 @@ function Game:_initScene()
 		Game.scene._camera._originPt.x = Game.player._originPt.x
 		Game.scene._camera._originPt.y = Game.player._originPt.y
 		Game.scene._camera._angle = -Game.player._angle
+		local middle_human = Game.player._originPt.x+Game._roadLength/2
+		middle_human = math.abs(middle_human % Game._roadLength)
+		--local middle_monster = Game.monster._originPt.x+Game._roadLength/2
+		--middle_monster = math.abs(middle_monster % Game._roadLength)
+		if middle_human > Game.monster._originPt.x then
+			if middle_human - Game.monster._originPt.x < Game._roadLength/2 then
+				Game.monster:vector_move(math.abs(player_dv.x*1000), 0)
+			else
+				Game.monster:vector_move(-math.abs(player_dv.x*1000), 0)
+			end
+		else
+			if Game.monster._originPt.x - middle_human< Game._roadLength/2 then
+				Game.monster:vector_move(-math.abs(player_dv.x*1000), 0)
+			else
+				Game.monster:vector_move(math.abs(player_dv.x*1000), 0)
+			end
+		end
+		--[[if middle_human - Game.monster._originPt.x > Game._roadLength/2 then
+			if middle_human - Game.monster._originPt.x<0 then
+				Game.monster:vector_move(player_dv.x*1000, 0)
+			else
+				Game.monster:vector_move(-player_dv.x*1000, 0)
+			end
+		end]]
+		player_dv.x = 0
+		Game.monster._originPt.x = Game.monster._originPt.x % Game._roadLength
 	end
 	----------------------
 	function love.mousepressed(bufx, bufy, button)
