@@ -34,7 +34,7 @@ function Game:init(width, height)
 		spice = love.graphics.newImage("res/img/spice.png")
 	}
 
-	self._num_road_sectors = 5
+	self._num_road_sectors = 10
 	self._roadLength = self._num_road_sectors * self.textures.road:getHeight()
 
 	self:resizeWindow(width, height)
@@ -122,7 +122,7 @@ function Game:_initScene()
 			math.pi/2,
 			self.textures.monster,
 			self.textures.road,
-			5
+			Game._num_road_sectors
 	)
 	
 	mainLayer:addNode(Game.monster)
@@ -214,6 +214,7 @@ function Game:_initScene()
 		--Game.move_y = 
 		if math.abs(Game.monster._originPt.x - Game.middle_human) > Game._roadLength/2 then
 			Game.move_y = (  math.atan2((Game.monster._originPt.x - Game.middle_human) , (Game.monster._originPt.y - Game.player._originPt.y)))
+			
 		else
 			Game.move_y = ( - math.atan2((Game.monster._originPt.x - Game.middle_human) , (Game.monster._originPt.y - Game.player._originPt.y)))
 		end
