@@ -1,5 +1,6 @@
 local class = require "bartbes.SECS.full"
-rkstlib.texturedNode = require "RakastettuLibs.TexturedNode"
+local anim8 = require "anim8"
+rkstlib.animatedNode = require "RakastettuLibs.AnimatedNode"
 
 local Monster = class:new(); Monster:addparent(rkstlib.texturedNode)
 
@@ -10,6 +11,12 @@ function Monster:init(originPt, rect, angle, texture, road_texture, road_length)
 	self._h = texture:getHeight()
 	self._originPt.x  = math.random(0.1, road_texture:getHeight()*road_length-0.1)
 	self._originPt.y  = math.random(-road_texture:getWidth()/2,road_texture:getWidth()/2)
+	local states = {}
+	if texture == Game.textures.monster then
+		local grid = anim8.newGrid(frameWidth, frameHeight, texture:getWidth(), texture:getHeight())
+	elseif texture == Game.textures.worm then 
+		local grid = anim8.newGrid(frameWidth, frameHeight, texture:getWidth(), texture:getHeight())
+	end
 	self._rect.top = self._h / 2
 	self._rect.bottom = self._h / 2
 	self._rect.left = self._w / 2

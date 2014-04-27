@@ -218,20 +218,20 @@ function Game:_initScene()
 		middle_human = math.abs(middle_human % Game._roadLength)
 		
 		--move monster
-		local move_y = 0
-		if delay_timer > 0.5 then
-			move_y = math.random(-10, 10)
-			if (math.abs(move_y)>Game.textures.road:getWidth()/2) then
-				move_y = -move_y
-			end
-			delay_timer = 0
-		end
+		local move_y = math.pi/180
 		
 		if middle_human > Game.monster._originPt.x then
 			if middle_human - Game.monster._originPt.x < Game._roadLength/2 then
 				Game.monster:vector_move(math.abs(dt*1200), move_y)
 			else
-				Game.monster:vector_move(-math.abs(dt*1200), move_y)
+				if delay_timer>0.01 then
+					Game.monster:vector_move(math.abs(dt*1200), move_y)
+					if Game.monster._angle < -math.pi/2 then
+						if Game.monster._angle - math.pi/2 > 0 then
+							Game.monster._angle = Game.monster._angle+move_y
+						end
+					end
+				end
 			end
 		else
 			if Game.monster._originPt.x - middle_human< Game._roadLength/2 then
