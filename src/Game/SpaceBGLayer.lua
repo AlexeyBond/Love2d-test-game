@@ -32,8 +32,8 @@ function SpaceBGLayer:_applyTransforms( camera )
 	local tw = self._texture:getWidth()
 	local th = self._texture:getHeight()
 
-	local trx = -(camera._originPt.x / self._road_len)*tw*10
-	local try = -(camera._originPt.x / self._road_len)*th
+	local trx = -(camera._originPt.x / self._road_len)*th
+	local try = -(camera._originPt.y / self._road_len)*tw
 	love.graphics.translate(camera._sizes.width/2, camera._sizes.height/2)
 	love.graphics.scale(self._scale*camera._zoom/camera._zoom_aspect, self._scale*camera._zoom*camera._zoom_aspect)
 	love.graphics.rotate(camera._angle * self._camera_move_scale.w)

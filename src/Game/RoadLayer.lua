@@ -16,7 +16,7 @@ function RoadLayer:init( roadTexture )
 	local th = roadTexture:getHeight()
 
 	for i = 1, roadlayer_num_nodes do
-		local xx = (roadlayer_num_nodes/2 - i)*th
+		local xx = (roadlayer_num_nodes/2 - i+2)*th
 		self:addNode( texturedNode:new({x=xx,y=0},nil,math.pi/2,roadTexture) )
 	end
 end

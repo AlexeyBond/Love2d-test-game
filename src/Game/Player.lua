@@ -13,7 +13,7 @@ function Player:init(originPt, rect, angle, texture)
 	self._rect.left = self._w / 2
 	self._rect.right = self._w / 2
 	self._v = 0
-	self._maxv = 0.5
+	self._maxv = 0.1
 end
 
 return Player
