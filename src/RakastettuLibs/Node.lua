@@ -51,6 +51,9 @@ end
 function Node:draw()
 end
 
+function Node:update(dt)
+end
+
 function Node:setRect(top, bottom, left, right) --можно вызывать :setRect(rect)
 	if type(top) == "table" then
 		self._rect = top
