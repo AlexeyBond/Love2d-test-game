@@ -7,6 +7,7 @@ local Game = {} --game with one scene
 Game.Player = require "Game.Player"
 Game.RoadLayer = require "Game.RoadLayer"
 Game.SpaceBGLayer = require "Game.SpaceBGLayer"
+Game.Monster = require "Game.Monster"
 
 function Game:resizeWindow(width, height)
 	local cam = self.scene._camera
@@ -22,7 +23,8 @@ function Game:init(width, height)
 	self.textures = {
 		player = love.graphics.newImage("res/img/player.png"),
 		road = love.graphics.newImage("res/img/road.png"),
-		space = love.graphics.newImage("res/img/space.jpg")
+		space = love.graphics.newImage("res/img/space.jpg"),
+		monster = love.graphics.newImage("res/img/monster.png")
 	}
 
 	self._roadLength = 5 * self.textures.road:getHeight()
@@ -64,7 +66,17 @@ function Game:_initScene()
 			math.pi / 2,
 			self.textures.player
 	)
-
+	
+	Game.monster = Game.Monster:new(
+			nil,
+			nil,
+			nil,
+			self.textures.monster,
+			self.textures.road,
+			5
+	)
+	mainLayer:addNode(Game.monster)
+	
 	mainLayer:addNode(Game.player)
 
 	self.scene:addLayer(mainLayer)
@@ -91,13 +103,13 @@ function Game:_initScene()
 			Game.player._v = Game.player._v+(Game.player._maxv-Game.player._v)*(dt/5.0)
 			player_dv.x = Game.player._v
 		elseif love.keyboard.isDown('s') then
-			Game.player._v = Game.player._v-(Game.player._maxv-Game.player._v)*(dt/7.5)
+			Game.player._v = Game.player._v-(Game.player._maxv-Game.player._v)*(dt/6)
 			player_dv.x = Game.player._v
 			elseif (Game.player._v-0.001>0) then
-				Game.player._v = Game.player._v - (Game.player._maxv-Game.player._v)*(dt/2.5)
+				Game.player._v = Game.player._v - (Game.player._maxv-Game.player._v)*(dt/1.5)
 				player_dv.x = Game.player._v
 				elseif (Game.player._v+0.001<0) then
-					Game.player._v = Game.player._v + (Game.player._maxv-Game.player._v)*(dt/2.5)
+					Game.player._v = Game.player._v + (Game.player._maxv-Game.player._v)*(dt/1.5)
 					player_dv.x = Game.player._v
 					else
 					Game.player._v = 0
