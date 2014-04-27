@@ -27,6 +27,7 @@ function Game:init(width, height)
 		road = love.graphics.newImage("res/img/road.png"),
 		space = love.graphics.newImage("res/img/space.jpg"),
 		monster = love.graphics.newImage("res/img/monster.png"),
+		worm = love.graphics.newImage("res/img/worm.png"),
 		barrel = love.graphics.newImage("res/img/barrel.png")
 	}
 
@@ -94,7 +95,20 @@ function Game:_initScene()
 			self.textures.road,
 			5
 	)
+	
+	
 	mainLayer:addNode(Game.monster)
+	
+	Game.worm = Game.Monster:new(
+			{x = Game.monster._originPt.x + Game._num_road_sectors/2, y = Game.monster._originPt.y },
+			nil,
+			nil,
+			self.textures.worm,
+			self.textures.road,
+			Game._num_road_sectors
+	)
+	mainLayer:addNode(Game.worm)
+	
 	
 	mainLayer:addNode(Game.player)
 
@@ -115,8 +129,9 @@ function Game:_initScene()
 	-- overlayLayer:addNode(overnode1)
 
 	self.scene:addLayer(overlayLayer)
-
+	local delay_timer = 0
 	function Game.scene:update(dt)
+		delay_timer = delay_timer + dt
 		local player_dv = {x = 0, phi = 0}
 		if love.keyboard.isDown('w') then
 			Game.player._v = Game.player._v+(Game.player._maxv-Game.player._v)*(dt/5.0)
@@ -153,31 +168,37 @@ function Game:_initScene()
 		Game.scene._camera._angle = -Game.player._angle
 		local middle_human = Game.player._originPt.x+Game._roadLength/2
 		middle_human = math.abs(middle_human % Game._roadLength)
-		--local middle_monster = Game.monster._originPt.x+Game._roadLength/2
-		--middle_monster = math.abs(middle_monster % Game._roadLength)
+		
+		--move monster
+		local move_y = 0
+		if delay_timer > 0.5 then
+			move_y = math.random(0, 10)
+			if (math.abs(move_y)>Game.textures.road:getWidth()/2) then
+				move_y = -move_y
+			end
+			delay_timer = 0
+		end
+		
 		if middle_human > Game.monster._originPt.x then
 			if middle_human - Game.monster._originPt.x < Game._roadLength/2 then
-				Game.monster:vector_move(math.abs(player_dv.x*1000), 0)
+				Game.monster:vector_move(math.abs(player_dv.x*1000), move_y)
 			else
-				Game.monster:vector_move(-math.abs(player_dv.x*1000), 0)
+				Game.monster:vector_move(-math.abs(player_dv.x*1000), move_y)
 			end
 		else
 			if Game.monster._originPt.x - middle_human< Game._roadLength/2 then
-				Game.monster:vector_move(-math.abs(player_dv.x*1000), 0)
+				Game.monster:vector_move(-math.abs(player_dv.x*1000), move_y)
 			else
-				Game.monster:vector_move(math.abs(player_dv.x*1000), 0)
+				Game.monster:vector_move(math.abs(player_dv.x*1000), move_y)
 			end
 		end
-		--[[if middle_human - Game.monster._originPt.x > Game._roadLength/2 then
-			if middle_human - Game.monster._originPt.x<0 then
-				Game.monster:vector_move(player_dv.x*1000, 0)
-			else
-				Game.monster:vector_move(-player_dv.x*1000, 0)
-			end
-		end]]
 		player_dv.x = 0
 		Game.monster._originPt.x = Game.monster._originPt.x % Game._roadLength
-
+		Game.worm._originPt.x = Game.monster._originPt.x + Game._roadLength/2
+		Game.worm._originPt.x = Game.worm._originPt.x % Game._roadLength
+		Game.worm._originPt.y = Game.monster._originPt.y
+		
+		
 		--[[ Check barrel collisions ]]
 		Game._barrels:toBegin( )
 		while true do
