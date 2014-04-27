@@ -10,6 +10,7 @@ Game.RoadLayer = require "Game.RoadLayer"
 Game.SpaceBGLayer = require "Game.SpaceBGLayer"
 Game.Monster = require "Game.Monster"
 Game.Barrel = require "Game.Barrel"
+Game.Score = 0
 
 function Game:resizeWindow(width, height)
 	local cam = self.scene._camera
@@ -142,7 +143,15 @@ function Game:_initScene()
 	-- overlayLayer:addNode(overnode1)
 
 	self.scene:addLayer(overlayLayer)
+	
+	
+	
+	
+	
 	local delay_timer = 0
+	
+	
+	
 	function Game.scene:update(dt)
 		delay_timer = delay_timer + dt
 		local player_dv = {x = 0, phi = 0}
@@ -185,7 +194,7 @@ function Game:_initScene()
 		--move monster
 		local move_y = 0
 		if delay_timer > 0.5 then
-			move_y = math.random(0, 10)
+			move_y = math.random(-10, 10)
 			if (math.abs(move_y)>Game.textures.road:getWidth()/2) then
 				move_y = -move_y
 			end
@@ -194,15 +203,15 @@ function Game:_initScene()
 		
 		if middle_human > Game.monster._originPt.x then
 			if middle_human - Game.monster._originPt.x < Game._roadLength/2 then
-				Game.monster:vector_move(math.abs(player_dv.x*1000), move_y)
+				Game.monster:vector_move(math.abs(dt*1000), move_y)
 			else
-				Game.monster:vector_move(-math.abs(player_dv.x*1000), move_y)
+				Game.monster:vector_move(-math.abs(dt*1000), move_y)
 			end
 		else
 			if Game.monster._originPt.x - middle_human< Game._roadLength/2 then
-				Game.monster:vector_move(-math.abs(player_dv.x*1000), move_y)
+				Game.monster:vector_move(-math.abs(dt*1000), move_y)
 			else
-				Game.monster:vector_move(math.abs(player_dv.x*1000), move_y)
+				Game.monster:vector_move(math.abs(dt*1000), move_y)
 			end
 		end
 		player_dv.x = 0
