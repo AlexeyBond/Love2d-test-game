@@ -17,7 +17,6 @@ function Game:init(width, height)
 	print("Game:init() called")
 
 	self.scene = rkstlib.scene:new()
-	self.scene._camera._zoom = 0.3
 
 	self.textures = {
 		player = love.graphics.newImage("res/img/player.png"),
@@ -89,10 +88,19 @@ function Game:_initScene()
 			Game.player._originPt.x = Game.player._originPt.x + Game._roadLength/2
 		end
 		Game.scene._camera._originPt.x = Game.player._originPt.x
-		Game.scene._camera._originPt.y = -Game.player._originPt.y
+		Game.scene._camera._originPt.y = Game.player._originPt.y
 		Game.scene._camera._angle = -Game.player._angle
 	end
 	----------------------
+	function love.mousepressed(bufx, bufy, button)
+		if button == ("wu") then
+			self.scene._camera._zoom = self.scene._camera._zoom + 0.1
+		end
+		
+		if button == ("wd") then
+			self.scene._camera._zoom = self.scene._camera._zoom - 0.1
+		end
+	end
 end
 
 return Game
