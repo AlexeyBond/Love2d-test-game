@@ -28,8 +28,8 @@ function Game:init(width, height)
 		player = love.graphics.newImage("res/img/sprite_character.png"),
 		road = love.graphics.newImage("res/img/road.png"),
 		space = love.graphics.newImage("res/img/space.jpg"),
-		monster = love.graphics.newImage("res/img/monster_190x384.png"),
-		worm = love.graphics.newImage("res/img/worm_168x168.png"),
+		monster = love.graphics.newImage("res/img/monster.png"),
+		worm = love.graphics.newImage("res/img/worm.png"),
 		barrel = love.graphics.newImage("res/img/barrel.png"),
 		spice = love.graphics.newImage("res/img/spice.png")
 	}
@@ -99,18 +99,9 @@ function Game:_initScene()
 
 	local spaceLayer = Game.SpaceBGLayer:new(self.textures.space, self.textures.road:getHeight())
 
-		self.scene:addLayer( spaceLayer )
+	self.scene:addLayer( spaceLayer )
 
-		local mainLayer = rkstlib.layer:new()
-
-		--Game.player = Game.Player:new(
-		--		{x = 0.001, y = 0},
-		--		nil,
-		--		math.pi / 2,
-		--		self.textures.player
-		--)
-
-	--mainLayer:addNode(Game.player)
+	local mainLayer = rkstlib.layer:new()
 	
 
 	local mainLayer = rkstlib.layer:new()
@@ -128,7 +119,7 @@ function Game:_initScene()
 	Game.monster = Game.Monster:new(
 			nil,
 			nil,
-			nil,
+			math.pi/2,
 			self.textures.monster,
 			self.textures.road,
 			5
@@ -141,7 +132,7 @@ function Game:_initScene()
 	Game.worm = Game.Monster:new(
 			{x = Game.monster._originPt.x + Game._num_road_sectors/2, y = Game.monster._originPt.y },
 			nil,
-			nil,
+			math.pi/2,
 			self.textures.worm,
 			self.textures.road,
 			Game._num_road_sectors
@@ -204,7 +195,7 @@ function Game:_initScene()
 		if math.abs(Game.player._originPt.y)>Game.textures.road:getWidth()/2 then
 			local offset = 2*(math.abs(Game.player._originPt.y) - Game.textures.road:getWidth()/2)
 			if Game.player._originPt.y < 0 then offset = -offset end
-				player_dv.phi = math.pi - player_dv.phi
+				player_dv.phi =  -(Game.player:getAngle()-math.pi/2)
 				Game.player._originPt.y = Game.player._originPt.y - offset
 				Game.player._originPt.x = Game.player._originPt.x + Game._roadLength/2
 		end
@@ -218,13 +209,17 @@ function Game:_initScene()
 		Game.scene._camera._originPt.y = Game.player._originPt.y
 		Game.scene._camera._angle = -Game.player._angle
 		Game.middle_human = Game.player._originPt.x + Game._roadLength/2
-		Game.middle_human = math.abs(Game.middle_human) % Game._roadLength
+		Game.middle_human = Game.middle_human % Game._roadLength
 		
-		
-		Game.move_y = math.atan2(Game.monster._originPt.y - Game.player._originPt.y,  Game.monster._originPt.x - Game.middle_human)
+		--Game.move_y = 
+		if math.abs(Game.monster._originPt.x - Game.middle_human) > Game._roadLength/2 then
+			Game.move_y = (  math.atan2((Game.monster._originPt.x - Game.middle_human) , (Game.monster._originPt.y - Game.player._originPt.y)))
+		else
+			Game.move_y = ( - math.atan2((Game.monster._originPt.x - Game.middle_human) , (Game.monster._originPt.y - Game.player._originPt.y)))
+		end
 		Game.monster:rotateTo( Game.move_y )
 		
-		Game.monster:vector_move(math.abs(dt*1200), 0)
+		Game.monster:vector_move(dt*1200, 0)
 		player_dv.x = 0
 		Game.monster._originPt.x = Game.monster._originPt.x % Game._roadLength
 		Game.worm._originPt.x = Game.monster._originPt.x + Game._roadLength/2
