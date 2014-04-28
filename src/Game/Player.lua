@@ -4,7 +4,7 @@ rkstlib.animatedNode = require "RakastettuLibs.AnimatedNode"
 
 local Player = class:new(); Player:addparent(rkstlib.animatedNode)
 function Player:init(originPt, rect, angle, texture)
-	local frameWidth = 248
+	local frameWidth = 247 --246
 	local frameHeight = 386
 	local grid = anim8.newGrid(frameWidth, frameHeight, texture:getWidth(), texture:getHeight())
 	local states = {

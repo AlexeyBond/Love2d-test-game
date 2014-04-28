@@ -5,8 +5,13 @@ rkstlib = {}
 rkstlib.scene = require "RakastettuLibs.Scene"
 rkstlib.layer = require "RakastettuLibs.Layer"
 rkstlib.node = require "RakastettuLibs.Node"
+rkstlib.texturedNode = require "RakastettuLibs.TexturedNode"
+rkstlib.scene = require "RakastettuLibs.Scene"
 
 game = require "Game.Game"
+mainmenu = {}
+
+-- 		love.graphics.newImage("res/img/main_menu.png"));
 
 function love.load()
 	local width = 640
@@ -27,32 +32,28 @@ function love.load()
 
 	game:init(width, height)
 
-----------------------------------
---пример наследования
-	-- local a = class:new()
-	-- function a:init(x)
-	-- 	self.x = x
-	-- end
-	-- local b = class:new(); b:addparent(a)
-	-- function b:init(x, y)
-	-- 	a.init(self, x) --вызываем конструктор родителя
-
-	-- 	self.y = y
-	-- 	self.z = self.x + self.y
-	-- end
-
-	-- local obj = b:new(1, 2)
-	-- print(obj.x .. ' ' .. obj.y .. ' ' .. obj.z)
-----------------------------------
+	mainmenu.bg = love.graphics.newImage("res/img/main_menu.png")
+	_STARTMENU = true
 end
 
 function love.draw()
-	game.scene:draw()
+	if _STARTMENU then
+		love.graphics.setColor(255, 255, 255, 255)
+		love.graphics.draw(mainmenu.bg, 0, 0, 0, 640/1024, 480/768)
+	else
+		game.scene:draw()
+	end
 
 	local pt = Game.Score
 	love.graphics.print(pt, 13, 13)
 end
 
 function love.update(dt)
-	game.scene:update(dt)
+	if _STARTMENU then
+		if love.keyboard.isDown('kpenter') then
+			_STARTMENU = nil
+		end
+	else
+		game.scene:update(dt)
+	end
 end

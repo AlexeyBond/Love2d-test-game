@@ -34,13 +34,15 @@ function Game:init(width, height)
 		spice = love.graphics.newImage("res/img/spice.png")
 	}
 
-	self._num_road_sectors = 5
+	self._num_road_sectors = 10
 	self._roadLength = self._num_road_sectors * self.textures.road:getHeight()
 
 	self:resizeWindow(width, height)
 	self:_initScene()
 
-	self.scene._camera._debug = true
+	self.scene._camera._debug = nil
+	self.scene._camera._zoom = 0.3
+	
 end
 
 local function overrideDrawFunction( node )
@@ -56,7 +58,7 @@ local function overrideDrawFunction( node )
 end
 
 function Game:_makeBarrels(mainLayer)
-	local max_barrels_per_sector = 3
+	local max_barrels_per_sector = 2
 	local i
 
 	self._barrels = rkstlib.list:new( )
@@ -203,6 +205,12 @@ function Game:_initScene()
 		end
 		Game.player:rotate(player_dv.phi)
 		Game.player:vector_move(player_dv.x*1000, 0)
+
+		if math.abs(Game.player._v ) > 0.001 then
+			Game.player._currentState = "drive"
+		else
+			Game.player._currentState = "idle"
+		end
 
 		Game.player._originPt.x = Game.player._originPt.x % Game._roadLength
 		if math.abs(Game.player._originPt.y)>Game.textures.road:getWidth()/2 then
